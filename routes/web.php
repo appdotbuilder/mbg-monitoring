@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\DistribusiController;
+use App\Http\Controllers\PenerimaMbgController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/health-check', function () {
     return response()->json([
@@ -19,7 +21,7 @@ Route::get('/', function () {
     if (auth()->check()) {
         return app(DashboardController::class)->index(request());
     }
-    return Inertia::render('welcome');
+    return view('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -30,6 +32,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('sekolah', SekolahController::class);
     Route::resource('kendaraan', KendaraanController::class);
     Route::resource('distribusi', DistribusiController::class);
+    Route::resource('penerima-mbg', PenerimaMbgController::class);
+    
+    // Report routes
+    Route::resource('reports', ReportController::class)->only(['index', 'store']);
+    
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/settings.php';

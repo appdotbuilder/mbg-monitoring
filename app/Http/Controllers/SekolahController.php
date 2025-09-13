@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSekolahRequest;
 use App\Http\Requests\UpdateSekolahRequest;
 use App\Models\Sekolah;
-use Inertia\Inertia;
+
 
 class SekolahController extends Controller
 {
@@ -19,9 +19,7 @@ class SekolahController extends Controller
             ->latest()
             ->paginate(10);
         
-        return Inertia::render('sekolah/index', [
-            'sekolah' => $sekolah
-        ]);
+        return view('sekolah.index', ['sekolah' => $sekolah]);
     }
 
     /**
@@ -29,7 +27,7 @@ class SekolahController extends Controller
      */
     public function create()
     {
-        return Inertia::render('sekolah/create');
+        return view('sekolah.create');
     }
 
     /**
@@ -50,9 +48,7 @@ class SekolahController extends Controller
     {
         $sekolah->load(['penerimaMbg', 'distribusi.kendaraan']);
         
-        return Inertia::render('sekolah/show', [
-            'sekolah' => $sekolah
-        ]);
+        return view('sekolah.show', ['sekolah' => $sekolah]);
     }
 
     /**
@@ -60,9 +56,7 @@ class SekolahController extends Controller
      */
     public function edit(Sekolah $sekolah)
     {
-        return Inertia::render('sekolah/edit', [
-            'sekolah' => $sekolah
-        ]);
+        return view('sekolah.edit', ['sekolah' => $sekolah]);
     }
 
     /**

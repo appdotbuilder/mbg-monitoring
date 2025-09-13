@@ -30,18 +30,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create vehicles
-        $kendaraan1 = Kendaraan::factory()->aktif()->create([
+        $kendaraan1 = Kendaraan::factory()->create([
             'nama_kendaraan' => 'Truck MBG 01',
             'plat_nomor' => 'B 1234 MBG',
             'driver_name' => 'Budi Santoso',
             'driver_phone' => '081234567890',
+            'status' => 'aktif',
         ]);
 
-        $kendaraan2 = Kendaraan::factory()->aktif()->create([
+        $kendaraan2 = Kendaraan::factory()->create([
             'nama_kendaraan' => 'Truck MBG 02',
             'plat_nomor' => 'B 5678 MBG',
             'driver_name' => 'Andi Wijaya',
             'driver_phone' => '081234567891',
+            'status' => 'aktif',
         ]);
 
         // Create schools
@@ -104,11 +106,12 @@ class DatabaseSeeder extends Seeder
         foreach ($sekolahList as $sekolah) {
             // Past distributions (completed)
             for ($i = 0; $i < 5; $i++) {
-                Distribusi::factory()->sudah()->create([
+                Distribusi::factory()->create([
                     'sekolah_id' => $sekolah->id,
                     'kendaraan_id' => fake()->randomElement($kendaraanList)->id,
                     'tanggal_distribusi' => now()->subDays(random_int(1, 30)),
                     'jumlah_porsi' => random_int(100, $sekolah->jumlah_siswa),
+                    'status' => 'sudah',
                 ]);
             }
 
@@ -123,11 +126,12 @@ class DatabaseSeeder extends Seeder
 
             // Future distributions (pending)
             for ($i = 1; $i <= 7; $i++) {
-                Distribusi::factory()->belum()->create([
+                Distribusi::factory()->create([
                     'sekolah_id' => $sekolah->id,
                     'kendaraan_id' => fake()->randomElement($kendaraanList)->id,
                     'tanggal_distribusi' => today()->addDays($i),
                     'jumlah_porsi' => random_int(100, $sekolah->jumlah_siswa),
+                    'status' => 'belum',
                 ]);
             }
         }

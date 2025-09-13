@@ -8,7 +8,7 @@ use App\Models\Kendaraan;
 use App\Models\Sekolah;
 use App\Models\PenerimaMbg;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -72,14 +72,14 @@ class DashboardController extends Controller
         // Vehicle options for filter
         $kendaraanOptions = Kendaraan::aktif()->get();
 
-        return Inertia::render('dashboard', [
-            'stats' => $stats,
-            'weeklyData' => $weeklyData,
-            'statusData' => $statusData,
-            'recentDistribusi' => $recentDistribusi,
-            'distribusiHariIni' => $distribusiHariIni,
-            'kendaraanOptions' => $kendaraanOptions,
-            'selectedKendaraan' => $kendaraanFilter,
-        ]);
+        return view('dashboard', compact(
+            'stats',
+            'weeklyData',
+            'statusData',
+            'recentDistribusi',
+            'distribusiHariIni',
+            'kendaraanOptions',
+            'kendaraanFilter'
+        ));
     }
 }
